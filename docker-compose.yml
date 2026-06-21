@@ -40,7 +40,7 @@ services:
     working_dir: /api
     env_file: .env
     ports:
-      - "8082:8080"
+      - "8080:8080"
     networks:
       - api_network
 

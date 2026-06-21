@@ -136,6 +136,57 @@ func (_c *MockRepository_PutBasket_Call) RunAndReturn(run func(row *dynamodb.Bas
 	return _c
 }
 
+// PutBasketItem provides a mock function for the type MockRepository
+func (_mock *MockRepository) PutBasketItem(row *dynamodb.BasketItemRow) error {
+	ret := _mock.Called(row)
+
+	if len(ret) == 0 {
+		panic("no return value specified for PutBasketItem")
+	}
+
+	var r0 error
+	if returnFunc, ok := ret.Get(0).(func(*dynamodb.BasketItemRow) error); ok {
+		r0 = returnFunc(row)
+	} else {
+		r0 = ret.Error(0)
+	}
+	return r0
+}
+
+// MockRepository_PutBasketItem_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'PutBasketItem'
+type MockRepository_PutBasketItem_Call struct {
+	*mock.Call
+}
+
+// PutBasketItem is a helper method to define mock.On call
+//   - row *dynamodb.BasketItemRow
+func (_e *MockRepository_Expecter) PutBasketItem(row any) *MockRepository_PutBasketItem_Call {
+	return &MockRepository_PutBasketItem_Call{Call: _e.mock.On("PutBasketItem", row)}
+}
+
+func (_c *MockRepository_PutBasketItem_Call) Run(run func(row *dynamodb.BasketItemRow)) *MockRepository_PutBasketItem_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 *dynamodb.BasketItemRow
+		if args[0] != nil {
+			arg0 = args[0].(*dynamodb.BasketItemRow)
+		}
+		run(
+			arg0,
+		)
+	})
+	return _c
+}
+
+func (_c *MockRepository_PutBasketItem_Call) Return(err error) *MockRepository_PutBasketItem_Call {
+	_c.Call.Return(err)
+	return _c
+}
+
+func (_c *MockRepository_PutBasketItem_Call) RunAndReturn(run func(row *dynamodb.BasketItemRow) error) *MockRepository_PutBasketItem_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // SetDb provides a mock function for the type MockRepository
 func (_mock *MockRepository) SetDb(db repositories.DynamoDBAPI) {
 	_mock.Called(db)
