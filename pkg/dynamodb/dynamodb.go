@@ -56,6 +56,10 @@ func New(cnf *Config) (Repository, error) {
 	return result, nil
 }
 
+func (d *DynamoDB) Context() context.Context {
+	return d.ctx
+}
+
 func (d *DynamoDB) getTable(table string) (string, error) {
 	if d.cnf != nil {
 		if val, ok := d.cnf.Tables[table]; ok {
