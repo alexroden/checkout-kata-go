@@ -7,25 +7,25 @@ import (
 
 	mocks "github.com/alexroden/checkout-kata-go/internal/mocks/pkg/repositories"
 	"github.com/alexroden/checkout-kata-go/pkg/repositories"
-	"github.com/alexroden/checkout-kata-go/pkg/uuid"
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"github.com/stretchr/testify/suite"
 )
 
-type GetBasketSuite struct {
+type GetProductSuite struct {
 	suite.Suite
-	id   string
-	row  *BasketRow
+	sku  string
+	row  *ProductRow
 	item map[string]types.AttributeValue
 }
 
-func (s *GetBasketSuite) SetupTest() {
-	s.id = uuid.NilUUID
+func (s *GetProductSuite) SetupTest() {
+	s.sku = "A"
 
-	s.row = &BasketRow{
-		Id: s.id,
+	s.row = &ProductRow{
+		Sku:       s.sku,
+		UnitPrice: 10,
 	}
 
 	row, err := s.row.Marshal()
@@ -34,16 +34,16 @@ func (s *GetBasketSuite) SetupTest() {
 	s.item = row
 }
 
-func (s *GetBasketSuite) DB(ctx context.Context, err error) repositories.DynamoDBAPI {
+func (s *GetProductSuite) DB(ctx context.Context, err error) repositories.DynamoDBAPI {
 	result := &mocks.MockDynamoDBAPI{}
 
 	result.On(
 		"GetItem",
 		ctx,
 		&dynamodb.GetItemInput{
-			TableName: aws.String(BASKETS_TABLE),
+			TableName: aws.String(PRODUCTS_TABLE),
 			Key: map[string]types.AttributeValue{
-				"id": &types.AttributeValueMemberS{Value: s.id},
+				"sku": &types.AttributeValueMemberS{Value: s.sku},
 			},
 		},
 	).Return(
@@ -55,10 +55,10 @@ func (s *GetBasketSuite) DB(ctx context.Context, err error) repositories.DynamoD
 
 	return result
 }
-func (s *GetBasketSuite) DynamoDB(err error) Repository {
+func (s *GetProductSuite) DynamoDB(err error) Repository {
 	result, e := New(&Config{
 		Tables: map[string]string{
-			BASKETS_TABLE: BASKETS_TABLE,
+			PRODUCTS_TABLE: PRODUCTS_TABLE,
 		},
 	})
 	s.NoError(e)
@@ -68,20 +68,20 @@ func (s *GetBasketSuite) DynamoDB(err error) Repository {
 	return result
 }
 
-func (s *GetBasketSuite) TestSuccess() {
-	res, err := s.DynamoDB(nil).GetBasket(s.id)
+func (s *GetProductSuite) TestSuccess() {
+	res, err := s.DynamoDB(nil).GetProduct(s.sku)
 	s.NoError(err)
 
-	s.IsType(&BasketRow{}, res)
+	s.IsType(&ProductRow{}, res)
 }
 
-func (s *GetBasketSuite) TestError() {
-	_, err := s.DynamoDB(errors.New("Invalid Credentials")).GetBasket(s.id)
+func (s *GetProductSuite) TestError() {
+	_, err := s.DynamoDB(errors.New("Invalid Credentials")).GetProduct(s.sku)
 	s.Error(err)
 }
 
 // In order for 'go test' to run this suite, we need to create
 // a normal test function and pass our suite to suite.Run
-func TestGetBasketSuite(t *testing.T) {
-	suite.Run(t, new(GetBasketSuite))
+func TestGetProductSuite(t *testing.T) {
+	suite.Run(t, new(GetProductSuite))
 }

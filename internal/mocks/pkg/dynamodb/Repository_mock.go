@@ -147,6 +147,68 @@ func (_c *MockRepository_GetBasket_Call) RunAndReturn(run func(id string) (*dyna
 	return _c
 }
 
+// GetProduct provides a mock function for the type MockRepository
+func (_mock *MockRepository) GetProduct(sku string) (*dynamodb.ProductRow, error) {
+	ret := _mock.Called(sku)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetProduct")
+	}
+
+	var r0 *dynamodb.ProductRow
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(string) (*dynamodb.ProductRow, error)); ok {
+		return returnFunc(sku)
+	}
+	if returnFunc, ok := ret.Get(0).(func(string) *dynamodb.ProductRow); ok {
+		r0 = returnFunc(sku)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*dynamodb.ProductRow)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(string) error); ok {
+		r1 = returnFunc(sku)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockRepository_GetProduct_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetProduct'
+type MockRepository_GetProduct_Call struct {
+	*mock.Call
+}
+
+// GetProduct is a helper method to define mock.On call
+//   - sku string
+func (_e *MockRepository_Expecter) GetProduct(sku any) *MockRepository_GetProduct_Call {
+	return &MockRepository_GetProduct_Call{Call: _e.mock.On("GetProduct", sku)}
+}
+
+func (_c *MockRepository_GetProduct_Call) Run(run func(sku string)) *MockRepository_GetProduct_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 string
+		if args[0] != nil {
+			arg0 = args[0].(string)
+		}
+		run(
+			arg0,
+		)
+	})
+	return _c
+}
+
+func (_c *MockRepository_GetProduct_Call) Return(productRow *dynamodb.ProductRow, err error) *MockRepository_GetProduct_Call {
+	_c.Call.Return(productRow, err)
+	return _c
+}
+
+func (_c *MockRepository_GetProduct_Call) RunAndReturn(run func(sku string) (*dynamodb.ProductRow, error)) *MockRepository_GetProduct_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // PutBasket provides a mock function for the type MockRepository
 func (_mock *MockRepository) PutBasket(row *dynamodb.BasketRow) error {
 	ret := _mock.Called(row)

@@ -18,6 +18,12 @@ func (c *Checkout) ScanItem(sku string) {
 		return
 	}
 
+	if _, err := c.db.GetProduct(sku); err != nil {
+		c.errors = append(c.errors, err)
+
+		return
+	}
+
 	if err := c.db.PutBasketItem(&dynamodb.BasketItemRow{
 		BasketId: c.session,
 		Sku:      sku,

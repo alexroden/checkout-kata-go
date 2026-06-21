@@ -57,15 +57,21 @@ func main() {
 	fmt.Println("Seeding data... 🌱")
 	files, _ := os.ReadDir("./internal/dynamo-init/seed")
 	for _, file := range files {
+		if file.IsDir() {
+			continue
+		}
+
+		if !strings.HasSuffix(file.Name(), ".json") {
+			continue
+		}
+
+		fmt.Printf("Seeding table: %s\n", file.Name())
 		tableName := strings.TrimSuffix(file.Name(), ".json")
 
 		runes := []rune(tableName)
 		runes[0] = unicode.ToUpper(runes[0])
 
-		tableName = fmt.Sprintf("%sTable", string(runes))
-
-		fmt.Printf("Seeding table: %s\n", tableName)
-		err := seedTable(ctx, client, tableName, "./internal/dynamo-init/seed/"+file.Name())
+		err := seedTable(ctx, client, fmt.Sprintf("%sTable", string(runes)), "./internal/dynamo-init/seed/"+file.Name())
 		if err != nil {
 			log.Fatal(err)
 		}
