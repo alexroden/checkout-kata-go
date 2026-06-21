@@ -22,7 +22,10 @@ func (s *ScanItemSuite) SetupTest() {
 	s.sku = "A"
 }
 
-func (s *ScanItemSuite) DynamoDB(err error, isMockingProduct, isMockingPut bool) dynamodb.Repository {
+func (s *ScanItemSuite) DynamoDB(
+	err error,
+	isMockingProduct, isMockingPut bool,
+) dynamodb.Repository {
 	result := &mocks.MockRepository{}
 
 	var e error
@@ -47,13 +50,24 @@ func (s *ScanItemSuite) DynamoDB(err error, isMockingProduct, isMockingPut bool)
 			s.sku,
 		).Return(nil, err).Once()
 
+		result.On(
+			"GetBasketItem",
+			s.session,
+			s.sku,
+		).Return(
+			&dynamodb.BasketItemRow{
+				Quantity: 1,
+			},
+			e,
+		).Once()
+
 		if isMockingPut {
 			result.On(
 				"PutBasketItem",
 				&dynamodb.BasketItemRow{
 					BasketId: s.session,
 					Sku:      s.sku,
-					Quantity: 1,
+					Quantity: 2,
 				},
 			).Return(e).Once()
 		}

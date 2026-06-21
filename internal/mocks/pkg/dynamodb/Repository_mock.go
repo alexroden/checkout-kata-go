@@ -147,6 +147,74 @@ func (_c *MockRepository_GetBasket_Call) RunAndReturn(run func(id string) (*dyna
 	return _c
 }
 
+// GetBasketItem provides a mock function for the type MockRepository
+func (_mock *MockRepository) GetBasketItem(basketId string, sku string) (*dynamodb.BasketItemRow, error) {
+	ret := _mock.Called(basketId, sku)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetBasketItem")
+	}
+
+	var r0 *dynamodb.BasketItemRow
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(string, string) (*dynamodb.BasketItemRow, error)); ok {
+		return returnFunc(basketId, sku)
+	}
+	if returnFunc, ok := ret.Get(0).(func(string, string) *dynamodb.BasketItemRow); ok {
+		r0 = returnFunc(basketId, sku)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*dynamodb.BasketItemRow)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(string, string) error); ok {
+		r1 = returnFunc(basketId, sku)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockRepository_GetBasketItem_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetBasketItem'
+type MockRepository_GetBasketItem_Call struct {
+	*mock.Call
+}
+
+// GetBasketItem is a helper method to define mock.On call
+//   - basketId string
+//   - sku string
+func (_e *MockRepository_Expecter) GetBasketItem(basketId any, sku any) *MockRepository_GetBasketItem_Call {
+	return &MockRepository_GetBasketItem_Call{Call: _e.mock.On("GetBasketItem", basketId, sku)}
+}
+
+func (_c *MockRepository_GetBasketItem_Call) Run(run func(basketId string, sku string)) *MockRepository_GetBasketItem_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 string
+		if args[0] != nil {
+			arg0 = args[0].(string)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		run(
+			arg0,
+			arg1,
+		)
+	})
+	return _c
+}
+
+func (_c *MockRepository_GetBasketItem_Call) Return(basketItemRow *dynamodb.BasketItemRow, err error) *MockRepository_GetBasketItem_Call {
+	_c.Call.Return(basketItemRow, err)
+	return _c
+}
+
+func (_c *MockRepository_GetBasketItem_Call) RunAndReturn(run func(basketId string, sku string) (*dynamodb.BasketItemRow, error)) *MockRepository_GetBasketItem_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // GetProduct provides a mock function for the type MockRepository
 func (_mock *MockRepository) GetProduct(sku string) (*dynamodb.ProductRow, error) {
 	ret := _mock.Called(sku)

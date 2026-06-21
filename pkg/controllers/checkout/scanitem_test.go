@@ -13,6 +13,10 @@ import (
 	"github.com/stretchr/testify/suite"
 )
 
+type apiResponse[T any] struct {
+	Data T `json:"data"`
+}
+
 type ScanItemSuite struct {
 	suite.Suite
 	w   *httptest.ResponseRecorder
@@ -23,7 +27,6 @@ func (s *ScanItemSuite) SetupTest() {
 	gin.SetMode(gin.TestMode)
 
 	s.w = httptest.NewRecorder()
-
 	req := httptest.NewRequest(
 		http.MethodPost,
 		"/v1/scan-item/A",
@@ -50,9 +53,14 @@ func (s *ScanItemSuite) Checkout(err error) checkout.Repository {
 	hasError := err != nil
 
 	result.On(
+		"SetSession",
+		uuid.NilUUID,
+	).Once()
+
+	result.On(
 		"ScanItem",
 		"A",
-	).Return(uuid.NilUUID, err).Once()
+	).Once()
 
 	result.On(
 		"HasError",

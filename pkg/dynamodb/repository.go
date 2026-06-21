@@ -9,6 +9,7 @@ import (
 type Repository interface {
 	Context() context.Context
 	GetBasket(id string) (*BasketRow, error)
+	GetBasketItem(basketId, sku string) (*BasketItemRow, error)
 	GetProduct(sku string) (*ProductRow, error)
 	PutBasket(row *BasketRow) error
 	PutBasketItem(row *BasketItemRow) error

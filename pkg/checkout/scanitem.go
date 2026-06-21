@@ -24,10 +24,15 @@ func (c *Checkout) ScanItem(sku string) {
 		return
 	}
 
+	qty := 1
+	if existing, _ := c.db.GetBasketItem(c.session, sku); existing != nil {
+		qty = existing.Quantity + qty
+	}
+
 	if err := c.db.PutBasketItem(&dynamodb.BasketItemRow{
 		BasketId: c.session,
 		Sku:      sku,
-		Quantity: 1,
+		Quantity: qty,
 	}); err != nil {
 		c.errors = append(c.errors, err)
 

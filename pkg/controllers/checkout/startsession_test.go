@@ -24,6 +24,7 @@ type StartSessionSuite struct {
 func (s *StartSessionSuite) SetupTest() {
 	gin.SetMode(gin.TestMode)
 
+	s.w = httptest.NewRecorder()
 	req := httptest.NewRequest(
 		http.MethodPost,
 		"/v1/start-session",
