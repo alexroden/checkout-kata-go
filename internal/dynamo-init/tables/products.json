@@ -1,0 +1,10 @@
+{
+  "TableName": "ProductsTable",
+  "BillingMode": "PAY_PER_REQUEST",
+  "Attributes": [
+    { "Name": "sku", "Type": "S" }
+  ],
+  "KeySchema": [
+    { "Name": "sku", "KeyType": "HASH" }
+  ]
+}

@@ -1,0 +1,21 @@
+# syntax=docker/dockerfile:1.4
+
+FROM golang:1.26.4-alpine
+
+WORKDIR /api
+
+RUN apk add --no-cache \
+    git \
+    curl \
+    wget \
+    openssh-client
+
+COPY go.mod go.sum ./
+
+RUN mkdir -p /root/.ssh && ssh-keyscan bitbucket.org >> /root/.ssh/known_hosts
+
+RUN --mount=type=ssh go mod download
+
+COPY . .
+
+CMD ["go", "run", "./internal/dynamo-init"]

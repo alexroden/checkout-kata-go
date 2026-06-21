@@ -1,4 +1,31 @@
 services:
+  dynamodb:
+    image: amazon/dynamodb-local:1.25.0
+    container_name: dynamodb
+    ports:
+      - "8000:8000"
+    command: "-jar DynamoDBLocal.jar -sharedDb -port 8000"
+    networks:
+      - api_network
+
+  dynamo-init:
+    build:
+      context: .
+      dockerfile: Dockerfile.dynamo-init
+      ssh:
+        - default
+    container_name: dynamo-init
+    command: ["go", "run", "./internal/dynamo-init"]
+    depends_on:
+      dynamodb:
+        condition: service_started
+    working_dir: /api
+    env_file: .env
+    volumes:
+      - .:/api
+    networks:
+      - api_network
+
   api:
     build:
       context: ..

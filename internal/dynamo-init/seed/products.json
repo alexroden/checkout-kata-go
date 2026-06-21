@@ -1,0 +1,18 @@
+[
+    {
+      "sku": "A",
+      "unitPrice": 50
+    },
+    {
+      "sku": "B",
+      "unitPrice": 30
+    },
+    {
+      "sku": "C",
+      "unitPrice": 20
+    },
+    {
+      "sku": "D",
+      "unitPrice": 15
+    }
+]
