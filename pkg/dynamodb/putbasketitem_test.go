@@ -22,7 +22,7 @@ type PutBasketItemSuite struct {
 
 func (s *PutBasketItemSuite) SetupTest() {
 	s.row = &BasketItemRow{
-		BasketId: uuid.New(true),
+		BasketId: uuid.NilUUID,
 		Sku:      "A",
 		Quantity: 1,
 	}

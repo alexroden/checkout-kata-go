@@ -22,7 +22,7 @@ type PutBasketSuite struct {
 
 func (s *PutBasketSuite) SetupTest() {
 	s.row = &BasketRow{
-		Id: uuid.New(true),
+		Id: uuid.NilUUID,
 	}
 
 	row, err := s.row.Marshal()

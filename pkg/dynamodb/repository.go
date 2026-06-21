@@ -8,6 +8,7 @@ import (
 
 type Repository interface {
 	Context() context.Context
+	GetBasket(id string) (*BasketRow, error)
 	PutBasket(row *BasketRow) error
 	PutBasketItem(row *BasketItemRow) error
 	SetDb(db repositories.DynamoDBAPI)

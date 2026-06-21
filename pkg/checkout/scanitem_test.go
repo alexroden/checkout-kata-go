@@ -22,32 +22,56 @@ func (s *ScanItemSuite) SetupTest() {
 	s.sku = "A"
 }
 
-func (s *ScanItemSuite) DynamoDB(err error) dynamodb.Repository {
+func (s *ScanItemSuite) DynamoDB(err error, isMockingPut bool) dynamodb.Repository {
 	result := &mocks.MockRepository{}
 
+	var e error
+	if isMockingPut {
+		e = err
+		err = nil
+	}
+
 	result.On(
-		"PutBasketItem",
-		&dynamodb.BasketItemRow{
-			BasketId: s.session,
-			Sku:      s.sku,
-			Quantity: 1,
-		},
-	).Return(err).Once()
+		"GetBasket",
+		s.session,
+	).Return(nil, err).Once()
+
+	if isMockingPut {
+		result.On(
+			"PutBasketItem",
+			&dynamodb.BasketItemRow{
+				BasketId: s.session,
+				Sku:      s.sku,
+				Quantity: 1,
+			},
+		).Return(e).Once()
+	}
 
 	return result
 }
 
 func (s *ScanItemSuite) Test_Success() {
-	c := New(s.DynamoDB(nil))
+	c := New(s.DynamoDB(nil, true))
 	c.SetSession(s.session)
 
 	c.ScanItem(s.sku)
 	s.False(c.HasError())
 }
 
-func (s *ScanItemSuite) Test_Error() {
+func (s *ScanItemSuite) Test_GetBasket_Error() {
+	err := errors.NotFound("basket not found")
+	c := New(s.DynamoDB(err, false))
+	c.SetSession(s.session)
+
+	c.ScanItem(s.sku)
+	s.True(c.HasError())
+
+	s.Equal(err, c.Errors(0))
+}
+
+func (s *ScanItemSuite) Test_PutItem_Error() {
 	err := errors.InternalServerError("something went wrong")
-	c := New(s.DynamoDB(err))
+	c := New(s.DynamoDB(err, true))
 	c.SetSession(s.session)
 
 	c.ScanItem(s.sku)

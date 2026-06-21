@@ -85,6 +85,68 @@ func (_c *MockRepository_Context_Call) RunAndReturn(run func() context.Context) 
 	return _c
 }
 
+// GetBasket provides a mock function for the type MockRepository
+func (_mock *MockRepository) GetBasket(id string) (*dynamodb.BasketRow, error) {
+	ret := _mock.Called(id)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetBasket")
+	}
+
+	var r0 *dynamodb.BasketRow
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(string) (*dynamodb.BasketRow, error)); ok {
+		return returnFunc(id)
+	}
+	if returnFunc, ok := ret.Get(0).(func(string) *dynamodb.BasketRow); ok {
+		r0 = returnFunc(id)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*dynamodb.BasketRow)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(string) error); ok {
+		r1 = returnFunc(id)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockRepository_GetBasket_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetBasket'
+type MockRepository_GetBasket_Call struct {
+	*mock.Call
+}
+
+// GetBasket is a helper method to define mock.On call
+//   - id string
+func (_e *MockRepository_Expecter) GetBasket(id any) *MockRepository_GetBasket_Call {
+	return &MockRepository_GetBasket_Call{Call: _e.mock.On("GetBasket", id)}
+}
+
+func (_c *MockRepository_GetBasket_Call) Run(run func(id string)) *MockRepository_GetBasket_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 string
+		if args[0] != nil {
+			arg0 = args[0].(string)
+		}
+		run(
+			arg0,
+		)
+	})
+	return _c
+}
+
+func (_c *MockRepository_GetBasket_Call) Return(basketRow *dynamodb.BasketRow, err error) *MockRepository_GetBasket_Call {
+	_c.Call.Return(basketRow, err)
+	return _c
+}
+
+func (_c *MockRepository_GetBasket_Call) RunAndReturn(run func(id string) (*dynamodb.BasketRow, error)) *MockRepository_GetBasket_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // PutBasket provides a mock function for the type MockRepository
 func (_mock *MockRepository) PutBasket(row *dynamodb.BasketRow) error {
 	ret := _mock.Called(row)
