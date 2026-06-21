@@ -14,3 +14,12 @@ packages:
       filename: '{{.InterfaceName}}_mock.go'
       recursive: true
       force-file-write: true
+  github.com/alexroden/checkout-kata-go/pkg/dynamodb:
+    config:
+      all: true
+      dir: internal/mocks/pkg/dynamodb
+      pkgname: mocks
+      structname: '{{.Mock}}{{.InterfaceName}}'
+      filename: '{{.InterfaceName}}_mock.go'
+      recursive: true
+      force-file-write: true

@@ -28,14 +28,14 @@ services:
 
   api:
     build:
-      context: ..
+      context: .
       dockerfile: Dockerfile.api
       ssh:
         - default
     depends_on:
       - dynamodb
     volumes:
-      - ..:/api
+      - .:/api
     container_name: kataapi
     working_dir: /api
     env_file: .env
