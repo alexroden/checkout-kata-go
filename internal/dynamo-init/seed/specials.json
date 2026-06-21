@@ -1,0 +1,12 @@
+[
+  {
+    "sku": "A",
+    "quantity": 3,
+    "price": 130
+  },
+  {
+    "sku": "B",
+    "quantity": 2,
+    "price": 45
+  }
+]
