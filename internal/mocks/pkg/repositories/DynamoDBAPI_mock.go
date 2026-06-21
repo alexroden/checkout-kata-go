@@ -286,3 +286,86 @@ func (_c *MockDynamoDBAPI_DescribeTable_Call) RunAndReturn(run func(ctx context.
 	_c.Call.Return(run)
 	return _c
 }
+
+// PutItem provides a mock function for the type MockDynamoDBAPI
+func (_mock *MockDynamoDBAPI) PutItem(ctx context.Context, params *dynamodb.PutItemInput, optFns ...func(*dynamodb.Options)) (*dynamodb.PutItemOutput, error) {
+	var tmpRet mock.Arguments
+	if len(optFns) > 0 {
+		tmpRet = _mock.Called(ctx, params, optFns)
+	} else {
+		tmpRet = _mock.Called(ctx, params)
+	}
+	ret := tmpRet
+
+	if len(ret) == 0 {
+		panic("no return value specified for PutItem")
+	}
+
+	var r0 *dynamodb.PutItemOutput
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *dynamodb.PutItemInput, ...func(*dynamodb.Options)) (*dynamodb.PutItemOutput, error)); ok {
+		return returnFunc(ctx, params, optFns...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *dynamodb.PutItemInput, ...func(*dynamodb.Options)) *dynamodb.PutItemOutput); ok {
+		r0 = returnFunc(ctx, params, optFns...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*dynamodb.PutItemOutput)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *dynamodb.PutItemInput, ...func(*dynamodb.Options)) error); ok {
+		r1 = returnFunc(ctx, params, optFns...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDynamoDBAPI_PutItem_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'PutItem'
+type MockDynamoDBAPI_PutItem_Call struct {
+	*mock.Call
+}
+
+// PutItem is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *dynamodb.PutItemInput
+//   - optFns ...func(*dynamodb.Options)
+func (_e *MockDynamoDBAPI_Expecter) PutItem(ctx any, params any, optFns ...any) *MockDynamoDBAPI_PutItem_Call {
+	return &MockDynamoDBAPI_PutItem_Call{Call: _e.mock.On("PutItem",
+		append([]any{ctx, params}, optFns...)...)}
+}
+
+func (_c *MockDynamoDBAPI_PutItem_Call) Run(run func(ctx context.Context, params *dynamodb.PutItemInput, optFns ...func(*dynamodb.Options))) *MockDynamoDBAPI_PutItem_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *dynamodb.PutItemInput
+		if args[1] != nil {
+			arg1 = args[1].(*dynamodb.PutItemInput)
+		}
+		var arg2 []func(*dynamodb.Options)
+		var variadicArgs []func(*dynamodb.Options)
+		if len(args) > 2 {
+			variadicArgs = args[2].([]func(*dynamodb.Options))
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDynamoDBAPI_PutItem_Call) Return(putItemOutput *dynamodb.PutItemOutput, err error) *MockDynamoDBAPI_PutItem_Call {
+	_c.Call.Return(putItemOutput, err)
+	return _c
+}
+
+func (_c *MockDynamoDBAPI_PutItem_Call) RunAndReturn(run func(ctx context.Context, params *dynamodb.PutItemInput, optFns ...func(*dynamodb.Options)) (*dynamodb.PutItemOutput, error)) *MockDynamoDBAPI_PutItem_Call {
+	_c.Call.Return(run)
+	return _c
+}

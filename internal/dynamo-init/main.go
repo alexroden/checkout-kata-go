@@ -11,18 +11,13 @@ import (
 	"unicode"
 
 	"github.com/alexroden/checkout-kata-go/internal/dynamo-init/models"
+	"github.com/alexroden/checkout-kata-go/pkg/repositories"
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 )
-
-type DynamoDBAPI interface {
-	DescribeTable(ctx context.Context, input *dynamodb.DescribeTableInput, opts ...func(*dynamodb.Options)) (*dynamodb.DescribeTableOutput, error)
-	CreateTable(ctx context.Context, input *dynamodb.CreateTableInput, opts ...func(*dynamodb.Options)) (*dynamodb.CreateTableOutput, error)
-	BatchWriteItem(ctx context.Context, params *dynamodb.BatchWriteItemInput, optFns ...func(*dynamodb.Options)) (*dynamodb.BatchWriteItemOutput, error)
-}
 
 func main() {
 	ctx := context.Background()
@@ -116,7 +111,7 @@ func loadTables(dir string) ([]*models.DynamoTable, error) {
 
 func createTable(
 	ctx context.Context,
-	client DynamoDBAPI,
+	client repositories.DynamoDBAPI,
 	table *models.DynamoTable,
 ) error {
 	if _, err := client.DescribeTable(ctx, &dynamodb.DescribeTableInput{
@@ -156,7 +151,7 @@ func createTable(
 
 func seedTable(
 	ctx context.Context,
-	client DynamoDBAPI,
+	client repositories.DynamoDBAPI,
 	tableName, filePath string,
 ) error {
 	data, err := os.ReadFile(filePath)

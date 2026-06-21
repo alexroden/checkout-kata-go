@@ -8,7 +8,8 @@ import (
 	"path/filepath"
 	"testing"
 
-	mocks "github.com/alexroden/checkout-kata-go/internal/mocks/dynamo-init"
+	mocks "github.com/alexroden/checkout-kata-go/internal/mocks/pkg/repositories"
+	"github.com/alexroden/checkout-kata-go/pkg/repositories"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"github.com/stretchr/testify/suite"
@@ -25,7 +26,7 @@ func (s *DynamoInitSuite) SetupTest() {
 	s.tableName = "ProductsTable"
 }
 
-func (s *DynamoInitSuite) DynamoDB(err error) DynamoDBAPI {
+func (s *DynamoInitSuite) DynamoDB(err error) repositories.DynamoDBAPI {
 	result := &mocks.MockDynamoDBAPI{}
 
 	result.On(

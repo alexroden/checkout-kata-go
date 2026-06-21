@@ -5,10 +5,10 @@ all: false
 recursive: true
 
 packages:
-  github.com/alexroden/checkout-kata-go/internal/dynamo-init:
+  github.com/alexroden/checkout-kata-go/pkg/repositories:
     config:
       all: true
-      dir: internal/mocks/dynamo-init
+      dir: internal/mocks/pkg/repositories
       pkgname: mocks
       structname: '{{.Mock}}{{.InterfaceName}}'
       filename: '{{.InterfaceName}}_mock.go'
