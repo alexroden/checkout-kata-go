@@ -1,0 +1,12 @@
+{
+  "TableName": "BasketItemsTable",
+  "BillingMode": "PAY_PER_REQUEST",
+  "Attributes": [
+    { "Name": "BasketId", "Type": "S" },
+    { "Name": "ItemId", "Type": "S" }
+  ],
+  "KeySchema": [
+    { "Name": "BasketId", "KeyType": "HASH" },
+    { "Name": "ItemId", "KeyType": "RANGE" }
+  ]
+}

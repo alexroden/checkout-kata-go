@@ -1,0 +1,10 @@
+{
+  "TableName": "BasketsTable",
+  "BillingMode": "PAY_PER_REQUEST",
+  "Attributes": [
+    { "Name": "id", "Type": "S" }
+  ],
+  "KeySchema": [
+    { "Name": "id", "KeyType": "HASH" }
+  ]
+}
