@@ -54,6 +54,14 @@ All successful response models returned to the frontend are defined in the `pkg/
 
 This project is containerised using Docker, so you will need Docker installed on your machine.
 
+Before getting started, ensure the provided environment file is correctly configured:
+
+```bash
+.env.local → .env
+```
+
+Once this has been set up, you can proceed with the installation steps below.
+
 To get started, run:
 
 ```bash
@@ -83,6 +91,7 @@ make cleanup
 ```
 
 This will stop and remove all running containers created by the project.
+
 
 ## Endpoints
 
