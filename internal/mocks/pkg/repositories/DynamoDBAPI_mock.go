@@ -38,6 +38,89 @@ func (_m *MockDynamoDBAPI) EXPECT() *MockDynamoDBAPI_Expecter {
 	return &MockDynamoDBAPI_Expecter{mock: &_m.Mock}
 }
 
+// BatchGetItem provides a mock function for the type MockDynamoDBAPI
+func (_mock *MockDynamoDBAPI) BatchGetItem(ctx context.Context, params *dynamodb.BatchGetItemInput, optFns ...func(*dynamodb.Options)) (*dynamodb.BatchGetItemOutput, error) {
+	var tmpRet mock.Arguments
+	if len(optFns) > 0 {
+		tmpRet = _mock.Called(ctx, params, optFns)
+	} else {
+		tmpRet = _mock.Called(ctx, params)
+	}
+	ret := tmpRet
+
+	if len(ret) == 0 {
+		panic("no return value specified for BatchGetItem")
+	}
+
+	var r0 *dynamodb.BatchGetItemOutput
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *dynamodb.BatchGetItemInput, ...func(*dynamodb.Options)) (*dynamodb.BatchGetItemOutput, error)); ok {
+		return returnFunc(ctx, params, optFns...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *dynamodb.BatchGetItemInput, ...func(*dynamodb.Options)) *dynamodb.BatchGetItemOutput); ok {
+		r0 = returnFunc(ctx, params, optFns...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*dynamodb.BatchGetItemOutput)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *dynamodb.BatchGetItemInput, ...func(*dynamodb.Options)) error); ok {
+		r1 = returnFunc(ctx, params, optFns...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDynamoDBAPI_BatchGetItem_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'BatchGetItem'
+type MockDynamoDBAPI_BatchGetItem_Call struct {
+	*mock.Call
+}
+
+// BatchGetItem is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *dynamodb.BatchGetItemInput
+//   - optFns ...func(*dynamodb.Options)
+func (_e *MockDynamoDBAPI_Expecter) BatchGetItem(ctx any, params any, optFns ...any) *MockDynamoDBAPI_BatchGetItem_Call {
+	return &MockDynamoDBAPI_BatchGetItem_Call{Call: _e.mock.On("BatchGetItem",
+		append([]any{ctx, params}, optFns...)...)}
+}
+
+func (_c *MockDynamoDBAPI_BatchGetItem_Call) Run(run func(ctx context.Context, params *dynamodb.BatchGetItemInput, optFns ...func(*dynamodb.Options))) *MockDynamoDBAPI_BatchGetItem_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *dynamodb.BatchGetItemInput
+		if args[1] != nil {
+			arg1 = args[1].(*dynamodb.BatchGetItemInput)
+		}
+		var arg2 []func(*dynamodb.Options)
+		var variadicArgs []func(*dynamodb.Options)
+		if len(args) > 2 {
+			variadicArgs = args[2].([]func(*dynamodb.Options))
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDynamoDBAPI_BatchGetItem_Call) Return(batchGetItemOutput *dynamodb.BatchGetItemOutput, err error) *MockDynamoDBAPI_BatchGetItem_Call {
+	_c.Call.Return(batchGetItemOutput, err)
+	return _c
+}
+
+func (_c *MockDynamoDBAPI_BatchGetItem_Call) RunAndReturn(run func(ctx context.Context, params *dynamodb.BatchGetItemInput, optFns ...func(*dynamodb.Options)) (*dynamodb.BatchGetItemOutput, error)) *MockDynamoDBAPI_BatchGetItem_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // BatchWriteItem provides a mock function for the type MockDynamoDBAPI
 func (_mock *MockDynamoDBAPI) BatchWriteItem(ctx context.Context, params *dynamodb.BatchWriteItemInput, optFns ...func(*dynamodb.Options)) (*dynamodb.BatchWriteItemOutput, error) {
 	var tmpRet mock.Arguments
@@ -449,6 +532,89 @@ func (_c *MockDynamoDBAPI_PutItem_Call) Return(putItemOutput *dynamodb.PutItemOu
 }
 
 func (_c *MockDynamoDBAPI_PutItem_Call) RunAndReturn(run func(ctx context.Context, params *dynamodb.PutItemInput, optFns ...func(*dynamodb.Options)) (*dynamodb.PutItemOutput, error)) *MockDynamoDBAPI_PutItem_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// Query provides a mock function for the type MockDynamoDBAPI
+func (_mock *MockDynamoDBAPI) Query(ctx context.Context, params *dynamodb.QueryInput, optFns ...func(*dynamodb.Options)) (*dynamodb.QueryOutput, error) {
+	var tmpRet mock.Arguments
+	if len(optFns) > 0 {
+		tmpRet = _mock.Called(ctx, params, optFns)
+	} else {
+		tmpRet = _mock.Called(ctx, params)
+	}
+	ret := tmpRet
+
+	if len(ret) == 0 {
+		panic("no return value specified for Query")
+	}
+
+	var r0 *dynamodb.QueryOutput
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *dynamodb.QueryInput, ...func(*dynamodb.Options)) (*dynamodb.QueryOutput, error)); ok {
+		return returnFunc(ctx, params, optFns...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *dynamodb.QueryInput, ...func(*dynamodb.Options)) *dynamodb.QueryOutput); ok {
+		r0 = returnFunc(ctx, params, optFns...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*dynamodb.QueryOutput)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *dynamodb.QueryInput, ...func(*dynamodb.Options)) error); ok {
+		r1 = returnFunc(ctx, params, optFns...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDynamoDBAPI_Query_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Query'
+type MockDynamoDBAPI_Query_Call struct {
+	*mock.Call
+}
+
+// Query is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *dynamodb.QueryInput
+//   - optFns ...func(*dynamodb.Options)
+func (_e *MockDynamoDBAPI_Expecter) Query(ctx any, params any, optFns ...any) *MockDynamoDBAPI_Query_Call {
+	return &MockDynamoDBAPI_Query_Call{Call: _e.mock.On("Query",
+		append([]any{ctx, params}, optFns...)...)}
+}
+
+func (_c *MockDynamoDBAPI_Query_Call) Run(run func(ctx context.Context, params *dynamodb.QueryInput, optFns ...func(*dynamodb.Options))) *MockDynamoDBAPI_Query_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *dynamodb.QueryInput
+		if args[1] != nil {
+			arg1 = args[1].(*dynamodb.QueryInput)
+		}
+		var arg2 []func(*dynamodb.Options)
+		var variadicArgs []func(*dynamodb.Options)
+		if len(args) > 2 {
+			variadicArgs = args[2].([]func(*dynamodb.Options))
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDynamoDBAPI_Query_Call) Return(queryOutput *dynamodb.QueryOutput, err error) *MockDynamoDBAPI_Query_Call {
+	_c.Call.Return(queryOutput, err)
+	return _c
+}
+
+func (_c *MockDynamoDBAPI_Query_Call) RunAndReturn(run func(ctx context.Context, params *dynamodb.QueryInput, optFns ...func(*dynamodb.Options)) (*dynamodb.QueryOutput, error)) *MockDynamoDBAPI_Query_Call {
 	_c.Call.Return(run)
 	return _c
 }

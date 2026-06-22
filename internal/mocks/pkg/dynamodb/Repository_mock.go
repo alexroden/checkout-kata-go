@@ -215,6 +215,68 @@ func (_c *MockRepository_GetBasketItem_Call) RunAndReturn(run func(basketId stri
 	return _c
 }
 
+// GetBasketItems provides a mock function for the type MockRepository
+func (_mock *MockRepository) GetBasketItems(basketId string) ([]*dynamodb.BasketItemRow, error) {
+	ret := _mock.Called(basketId)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetBasketItems")
+	}
+
+	var r0 []*dynamodb.BasketItemRow
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(string) ([]*dynamodb.BasketItemRow, error)); ok {
+		return returnFunc(basketId)
+	}
+	if returnFunc, ok := ret.Get(0).(func(string) []*dynamodb.BasketItemRow); ok {
+		r0 = returnFunc(basketId)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]*dynamodb.BasketItemRow)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(string) error); ok {
+		r1 = returnFunc(basketId)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockRepository_GetBasketItems_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetBasketItems'
+type MockRepository_GetBasketItems_Call struct {
+	*mock.Call
+}
+
+// GetBasketItems is a helper method to define mock.On call
+//   - basketId string
+func (_e *MockRepository_Expecter) GetBasketItems(basketId any) *MockRepository_GetBasketItems_Call {
+	return &MockRepository_GetBasketItems_Call{Call: _e.mock.On("GetBasketItems", basketId)}
+}
+
+func (_c *MockRepository_GetBasketItems_Call) Run(run func(basketId string)) *MockRepository_GetBasketItems_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 string
+		if args[0] != nil {
+			arg0 = args[0].(string)
+		}
+		run(
+			arg0,
+		)
+	})
+	return _c
+}
+
+func (_c *MockRepository_GetBasketItems_Call) Return(basketItemRows []*dynamodb.BasketItemRow, err error) *MockRepository_GetBasketItems_Call {
+	_c.Call.Return(basketItemRows, err)
+	return _c
+}
+
+func (_c *MockRepository_GetBasketItems_Call) RunAndReturn(run func(basketId string) ([]*dynamodb.BasketItemRow, error)) *MockRepository_GetBasketItems_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // GetProduct provides a mock function for the type MockRepository
 func (_mock *MockRepository) GetProduct(sku string) (*dynamodb.ProductRow, error) {
 	ret := _mock.Called(sku)
@@ -273,6 +335,148 @@ func (_c *MockRepository_GetProduct_Call) Return(productRow *dynamodb.ProductRow
 }
 
 func (_c *MockRepository_GetProduct_Call) RunAndReturn(run func(sku string) (*dynamodb.ProductRow, error)) *MockRepository_GetProduct_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// GetProducts provides a mock function for the type MockRepository
+func (_mock *MockRepository) GetProducts(skus ...string) ([]*dynamodb.ProductRow, error) {
+	var tmpRet mock.Arguments
+	if len(skus) > 0 {
+		tmpRet = _mock.Called(skus)
+	} else {
+		tmpRet = _mock.Called()
+	}
+	ret := tmpRet
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetProducts")
+	}
+
+	var r0 []*dynamodb.ProductRow
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(...string) ([]*dynamodb.ProductRow, error)); ok {
+		return returnFunc(skus...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(...string) []*dynamodb.ProductRow); ok {
+		r0 = returnFunc(skus...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]*dynamodb.ProductRow)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(...string) error); ok {
+		r1 = returnFunc(skus...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockRepository_GetProducts_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetProducts'
+type MockRepository_GetProducts_Call struct {
+	*mock.Call
+}
+
+// GetProducts is a helper method to define mock.On call
+//   - skus ...string
+func (_e *MockRepository_Expecter) GetProducts(skus ...any) *MockRepository_GetProducts_Call {
+	return &MockRepository_GetProducts_Call{Call: _e.mock.On("GetProducts",
+		append([]any{}, skus...)...)}
+}
+
+func (_c *MockRepository_GetProducts_Call) Run(run func(skus ...string)) *MockRepository_GetProducts_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 []string
+		var variadicArgs []string
+		if len(args) > 0 {
+			variadicArgs = args[0].([]string)
+		}
+		arg0 = variadicArgs
+		run(
+			arg0...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockRepository_GetProducts_Call) Return(productRows []*dynamodb.ProductRow, err error) *MockRepository_GetProducts_Call {
+	_c.Call.Return(productRows, err)
+	return _c
+}
+
+func (_c *MockRepository_GetProducts_Call) RunAndReturn(run func(skus ...string) ([]*dynamodb.ProductRow, error)) *MockRepository_GetProducts_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// GetSpecials provides a mock function for the type MockRepository
+func (_mock *MockRepository) GetSpecials(skus ...string) ([]*dynamodb.SpecialRow, error) {
+	var tmpRet mock.Arguments
+	if len(skus) > 0 {
+		tmpRet = _mock.Called(skus)
+	} else {
+		tmpRet = _mock.Called()
+	}
+	ret := tmpRet
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetSpecials")
+	}
+
+	var r0 []*dynamodb.SpecialRow
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(...string) ([]*dynamodb.SpecialRow, error)); ok {
+		return returnFunc(skus...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(...string) []*dynamodb.SpecialRow); ok {
+		r0 = returnFunc(skus...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]*dynamodb.SpecialRow)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(...string) error); ok {
+		r1 = returnFunc(skus...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockRepository_GetSpecials_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetSpecials'
+type MockRepository_GetSpecials_Call struct {
+	*mock.Call
+}
+
+// GetSpecials is a helper method to define mock.On call
+//   - skus ...string
+func (_e *MockRepository_Expecter) GetSpecials(skus ...any) *MockRepository_GetSpecials_Call {
+	return &MockRepository_GetSpecials_Call{Call: _e.mock.On("GetSpecials",
+		append([]any{}, skus...)...)}
+}
+
+func (_c *MockRepository_GetSpecials_Call) Run(run func(skus ...string)) *MockRepository_GetSpecials_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 []string
+		var variadicArgs []string
+		if len(args) > 0 {
+			variadicArgs = args[0].([]string)
+		}
+		arg0 = variadicArgs
+		run(
+			arg0...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockRepository_GetSpecials_Call) Return(specialRows []*dynamodb.SpecialRow, err error) *MockRepository_GetSpecials_Call {
+	_c.Call.Return(specialRows, err)
+	return _c
+}
+
+func (_c *MockRepository_GetSpecials_Call) RunAndReturn(run func(skus ...string) ([]*dynamodb.SpecialRow, error)) *MockRepository_GetSpecials_Call {
 	_c.Call.Return(run)
 	return _c
 }

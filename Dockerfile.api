@@ -4,15 +4,11 @@ FROM golang:1.26.4-alpine
 
 WORKDIR /api
 
-RUN apk add --no-cache git openssh
+RUN apk add --no-cache
 
 RUN go install github.com/air-verse/air@latest
 
 COPY go.mod go.sum ./
-
-RUN mkdir -p /root/.ssh && ssh-keyscan bitbucket.org >> /root/.ssh/known_hosts
-
-RUN --mount=type=ssh go mod download
 
 COPY . .
 

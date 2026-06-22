@@ -15,6 +15,10 @@ import (
 	"github.com/stretchr/testify/suite"
 )
 
+type apiResponse[T any] struct {
+	Data T `json:"data"`
+}
+
 type StartSessionSuite struct {
 	suite.Suite
 	w   *httptest.ResponseRecorder

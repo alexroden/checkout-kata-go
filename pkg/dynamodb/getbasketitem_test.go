@@ -44,7 +44,7 @@ func (s *GetBasketItemSuite) DB(ctx context.Context, err error) repositories.Dyn
 		"GetItem",
 		ctx,
 		&dynamodb.GetItemInput{
-			TableName: aws.String(BASKETS_TABLE),
+			TableName: aws.String(BASKET_ITEMS_TABLE),
 			Key: map[string]types.AttributeValue{
 				"basketId": &types.AttributeValueMemberS{Value: s.basketId},
 				"sku":      &types.AttributeValueMemberS{Value: s.sku},
@@ -62,7 +62,7 @@ func (s *GetBasketItemSuite) DB(ctx context.Context, err error) repositories.Dyn
 func (s *GetBasketItemSuite) DynamoDB(err error) Repository {
 	result, e := New(&Config{
 		Tables: map[string]string{
-			BASKETS_TABLE: BASKETS_TABLE,
+			BASKET_ITEMS_TABLE: BASKET_ITEMS_TABLE,
 		},
 	})
 	s.NoError(e)

@@ -1,6 +1,7 @@
 package checkout
 
 import (
+	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -8,24 +9,25 @@ import (
 	mocks "github.com/alexroden/checkout-kata-go/internal/mocks/pkg/checkout"
 	"github.com/alexroden/checkout-kata-go/pkg/checkout"
 	"github.com/alexroden/checkout-kata-go/pkg/errors"
+	"github.com/alexroden/checkout-kata-go/pkg/models"
 	"github.com/alexroden/checkout-kata-go/pkg/uuid"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/suite"
 )
 
-type ScanItemSuite struct {
+type GetTotalPriceSuite struct {
 	suite.Suite
 	w   *httptest.ResponseRecorder
 	ctx *gin.Context
 }
 
-func (s *ScanItemSuite) SetupTest() {
+func (s *GetTotalPriceSuite) SetupTest() {
 	gin.SetMode(gin.TestMode)
 
 	s.w = httptest.NewRecorder()
 	req := httptest.NewRequest(
-		http.MethodPost,
-		"/v1/scan-item/A",
+		http.MethodGet,
+		"/v1/total",
 		nil,
 	)
 
@@ -33,17 +35,11 @@ func (s *ScanItemSuite) SetupTest() {
 
 	req.Header.Add("Session-Id", uuid.NilUUID)
 	ctx.Request = req
-	ctx.Params = gin.Params{
-		{
-			Key:   "sku",
-			Value: "A",
-		},
-	}
 
 	s.ctx = ctx
 }
 
-func (s *ScanItemSuite) Checkout(err error) checkout.Repository {
+func (s *GetTotalPriceSuite) Checkout(err error) checkout.Repository {
 	result := &mocks.MockRepository{}
 
 	hasError := err != nil
@@ -54,9 +50,8 @@ func (s *ScanItemSuite) Checkout(err error) checkout.Repository {
 	).Once()
 
 	result.On(
-		"ScanItem",
-		"A",
-	).Once()
+		"GetTotalPrice",
+	).Return(10).Once()
 
 	result.On(
 		"HasError",
@@ -71,18 +66,23 @@ func (s *ScanItemSuite) Checkout(err error) checkout.Repository {
 	return result
 }
 
-func (s *ScanItemSuite) Test_Success() {
+func (s *GetTotalPriceSuite) Test_Success() {
 	controller := NewCheckoutController(s.Checkout(nil))
 
-	controller.ScanItem(s.ctx)
+	controller.GetTotalPrice(s.ctx)
 
-	s.Equal(http.StatusNoContent, s.w.Code)
+	s.Equal(http.StatusOK, s.w.Code)
+
+	var resp apiResponse[models.BasketTotal]
+	s.NoError(json.Unmarshal(s.w.Body.Bytes(), &resp))
+
+	s.NotEmpty(resp.Data.Total)
 }
 
-func (s *ScanItemSuite) Test_Error() {
+func (s *GetTotalPriceSuite) Test_Error() {
 	controller := NewCheckoutController(s.Checkout(errors.InternalServerError("something went wrong")))
 
-	controller.ScanItem(s.ctx)
+	controller.GetTotalPrice(s.ctx)
 
 	s.Equal(http.StatusInternalServerError, s.w.Code)
 	s.JSONEq(`{"error":{"code":"INTERNAL_SERVER_ERROR","message":"something went wrong"}}`, s.w.Body.String())
@@ -90,6 +90,6 @@ func (s *ScanItemSuite) Test_Error() {
 
 // In order for 'go test' to run this suite, we need to create
 // a normal test function and pass our suite to suite.Run
-func TestScanItemSuite(t *testing.T) {
-	suite.Run(t, new(ScanItemSuite))
+func TestGetTotalPriceSuite(t *testing.T) {
+	suite.Run(t, new(GetTotalPriceSuite))
 }

@@ -5,6 +5,7 @@ type Repository interface {
 	Validator
 
 	ScanItem(sku string)
+	GetTotalPrice() int
 }
 
 type SessionManager interface {

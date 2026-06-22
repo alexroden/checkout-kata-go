@@ -7,14 +7,9 @@ WORKDIR /api
 RUN apk add --no-cache \
     git \
     curl \
-    wget \
-    openssh-client
+    wget
 
 COPY go.mod go.sum ./
-
-RUN mkdir -p /root/.ssh && ssh-keyscan bitbucket.org >> /root/.ssh/known_hosts
-
-RUN --mount=type=ssh go mod download
 
 COPY . .
 

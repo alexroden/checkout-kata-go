@@ -11,7 +11,7 @@ import (
 )
 
 func (d *DynamoDB) GetBasketItem(basketId, sku string) (*BasketItemRow, error) {
-	tableName, err := d.getTable(BASKETS_TABLE)
+	tableName, err := d.getTable(BASKET_ITEMS_TABLE)
 	if err != nil {
 		return nil, err
 	}

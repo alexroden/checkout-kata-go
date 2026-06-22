@@ -28,6 +28,7 @@ func main() {
 			dynamodb.BASKETS_TABLE:      os.Getenv("BASKETS_TABLE_NAME"),
 			dynamodb.BASKET_ITEMS_TABLE: os.Getenv("BASKET_ITEMS_TABLE_NAME"),
 			dynamodb.PRODUCTS_TABLE:     os.Getenv("PRODUCTS_TABLE_NAME"),
+			dynamodb.SPECIALS_TABLE:     os.Getenv("SPECIALS_TABLE_NAME"),
 		},
 	})
 	if err != nil {
@@ -40,6 +41,7 @@ func main() {
 	{
 		v1.POST("/start-session", checkoutController.StartSession)
 		v1.POST("/scan-item/:sku", checkoutController.ScanItem)
+		v1.GET("/total", checkoutController.GetTotalPrice)
 	}
 
 	r.Run(":8080")
