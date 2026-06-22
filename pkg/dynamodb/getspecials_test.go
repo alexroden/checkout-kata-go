@@ -78,14 +78,14 @@ func (s *GetSpecialsSuite) DynamoDB(err error) Repository {
 }
 
 func (s *GetSpecialsSuite) TestSuccess() {
-	res, err := s.DynamoDB(nil).GetProducts(s.skus...)
+	res, err := s.DynamoDB(nil).GetSpecials(s.skus...)
 	s.NoError(err)
 
-	s.IsType([]*ProductRow{}, res)
+	s.IsType([]*SpecialRow{}, res)
 }
 
 func (s *GetSpecialsSuite) TestError() {
-	_, err := s.DynamoDB(errors.New("Invalid Credentials")).GetProducts(s.skus...)
+	_, err := s.DynamoDB(errors.New("Invalid Credentials")).GetSpecials(s.skus...)
 	s.Error(err)
 }
 
