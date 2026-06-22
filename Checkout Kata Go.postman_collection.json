@@ -1,0 +1,117 @@
+{
+  "info": {
+    "_postman_id": "b018bc50-b14f-48d9-90f9-0a9fc3144668",
+    "name": "Checkout Kata Go",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "25876319"
+  },
+  "item": [
+    {
+      "name": "Start Session",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{host}}/api/v1/start-session",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "start-session"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Scan Item",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Session-Id",
+            "value": "{{session}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{host}}/api/v1/scan-item/A",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "scan-item",
+            "A"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Total Price",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Session-Id",
+            "value": "{{session}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{host}}/api/v1/total",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "total"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "host",
+      "value": ""
+    },
+    {
+      "key": "session",
+      "value": ""
+    }
+  ]
+}

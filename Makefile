@@ -1,4 +1,4 @@
-.PHONY: setup start down cleanup
+.PHONY: setup start cleanup
 
 setup:
 	@docker compose -p kata up -d dynamodb
@@ -7,9 +7,6 @@ setup:
 
 start:
 	DOCKER_BUILDKIT=1 docker compose -p kata up -d api
-
-down:
-	@docker compose -p kata down
 
 cleanup:
 	@docker compose -p kata down -v --rmi all

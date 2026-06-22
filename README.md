@@ -2,14 +2,16 @@
 
 ## Task Overview
 
-The aim of this task was to build a simple checkout system that can calcuate the total price of scanned items.
+The aim of this task was to build a simple checkout system that can calculate the total price of scanned items.
+
+---
 
 ### Expected Behaviour
 
 - The checkout system accepts products identified by a SKU string (e.g. "A", "B", "C", "D").
 - Each SKU has a fixed unit price that is used for pricing individual items.
 - Items can be scanned in any order, and the final price must be independent of scan order.
-- The system accumulates scanned items internally until GetTotalPrice() is called.
+- The system accumulates scanned items internally until `GetTotalPrice()` is called.
 - The total price is calculated based on:
     - Applying any applicable special pricing rules first (where available).
     - Charging remaining items at their normal unit price.
@@ -19,21 +21,93 @@ The aim of this task was to build a simple checkout system that can calcuate the
 - If the quantity does not fully match a special offer, remaining items are charged at unit price.
     - e.g. 4 × A = 130 + 50
 - SKUs without special pricing (C, D) are always charged at unit price only.
-- Calling ScanItem(sku) adds a single unit of that SKU to the current basket.
-- Calling GetTotalPrice() returns the current total without mutating the scanned items.
+- Calling `ScanItem(sku)` adds a single unit of that SKU to the current basket.
+- Calling `GetTotalPrice()` returns the current total without mutating the scanned items.
 - The system should be able to handle multiple scans of the same SKU.
 
-## Project Structure
+## Architecture Overview
 
-The API entry point is located in `cmd/main.go`. This file configures the following endpoints:
+The system follows a layered service-based architecture designed to separate API concerns, business logic, and persistence.
 
-- * `POST /api/v1/start-session` – Starts a new checkout session.
-- * `POST /api/v1/scan-item/{sku}` – Scans an item and adds it to the current session.
-- * `GET /api/v1/total` – Retrieves the current checkout total.
+### High-Level Flow
 
-The controllers for these endpoints are located in the `pkg/controllers` package. Each controller depends on the `Checkout` service, which provides the implementation of the interface defined for this task and contains the core checkout business logic.
+```
+Client
+  ↓
+HTTP Handlers (cmd/main.go)
+  ↓
+Controllers (pkg/controllers)
+  ↓
+Checkout Service (core business logic)
+  ↓
+DynamoDB Repository (pkg/dynamodb)
+```
 
-For data persistence, the application uses DynamoDB. The DynamoDB implementation can be found in the `pkg/dynamodb` package.
+---
+
+### Components
+
+#### 1. API Layer (`cmd/main.go`)
+
+The application entry point is responsible for:
+
+* Initialising the HTTP server
+* Registering routes and endpoints
+* Wiring dependencies between layers
+
+It exposes the public API used to interact with the checkout system.
+
+---
+
+#### 2. Controllers (`pkg/controllers`)
+
+Controllers act as the interface layer between HTTP requests and the business logic.
+
+Responsibilities:
+
+* Extracting path parameters and headers (e.g. `Session-Id`)
+* Calling the `Checkout` service
+* Returning standardised responses
+
+---
+
+#### 3. Checkout Service
+
+The `Checkout` service contains the core business logic of the system.
+
+Responsibilities:
+
+* Validating data
+* Managing basket state per session
+* Handling item scanning logic
+* Calculating totals
+* Applying special pricing rules
+
+This layer is independent of HTTP and persistence concerns, making it reusable and testable.
+
+---
+
+#### 4. Persistence Layer (`pkg/dynamodb`)
+
+This layer abstracts data storage using DynamoDB.
+
+Responsibilities:
+
+* Storing and retrieving basket/session data
+* Persisting scanned items
+* Supporting session-based lookup
+
+This abstraction allows the storage implementation to be replaced without affecting business logic.
+
+---
+
+### Design Principles
+
+* **Separation of concerns**: Each layer has a single responsibility.
+* **Stateless API layer**: State is managed via session IDs and persisted in DynamoDB.
+* **Testability**: Business logic is isolated from transport and storage layers.
+* **Extensibility**: New features (e.g. promotions, product catalog) can be added without modifying core architecture.
+
 
 ### Response Models
 
@@ -68,7 +142,7 @@ To get started, run:
 make setup
 ```
 
-This command will set up the database, apply migrations, and seed initial user data required to interact with the API.
+This command will set up the database, create the tables, and seed products and specials data required to interact with the API.
 
 Once setup is complete, start the application with:
 
@@ -113,6 +187,8 @@ The response will include a session ID, which should be provided in the `Session
 }
 ```
 
+---
+
 ### Scan Item
 
 Once a session has been created, items can be added to the basket using this endpoint:
@@ -120,6 +196,8 @@ Once a session has been created, items can be added to the basket using this end
 `POST /api/v1/scan-item/{sku}`
 
 If the item is successfully added to the basket, the endpoint will return a `204 No Content` response.
+
+---
 
 ### Get Total
 
